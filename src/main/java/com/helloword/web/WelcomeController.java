@@ -1,7 +1,12 @@
 package com.helloword.web;
 
+import com.helloword.entity.Person;
 import com.helloword.service.HelloWorldService;
+
+import java.util.List;
 import java.util.Map;
+
+import com.helloword.service.PersonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +24,8 @@ public class WelcomeController {
     private final HelloWorldService helloWorldService;
 
     @Autowired
+    private PersonService personService;
+    @Autowired
     public WelcomeController(HelloWorldService helloWorldService) {
         this.helloWorldService = helloWorldService;
     }
@@ -30,7 +37,7 @@ public class WelcomeController {
 
         model.put("title", helloWorldService.getTitle(""));
         model.put("msg", helloWorldService.getDesc());
-
+        List<Person> persons = personService.listPersons();
         return "index";
     }
 
