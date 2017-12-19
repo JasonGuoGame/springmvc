@@ -73,9 +73,6 @@
 
 
   <hr>
-  <footer>
-    <p>© Mkyong.com 2015</p>
-  </footer>
 </div>
 
 <spring:url value="/resources/core/css/hello.js" var="coreJs" />

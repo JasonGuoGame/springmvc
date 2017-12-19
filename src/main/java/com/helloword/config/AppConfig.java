@@ -9,11 +9,14 @@ import org.springframework.context.annotation.ComponentScans;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScans(value = { @ComponentScan("com.helloword.dao"),
+@ComponentScans(value = { @ComponentScan("com.helloword.dao"),@ComponentScan("com.helloword.repository"),
         @ComponentScan("com.helloword.service") })
 public class AppConfig {
 
@@ -30,4 +33,5 @@ public class AppConfig {
         transactionManager.setEntityManagerFactory(geEntityManagerFactoryBean().getObject());
         return transactionManager;
     }
+
 }

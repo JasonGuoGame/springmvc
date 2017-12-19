@@ -9,13 +9,17 @@
               <description> Spring Hibernate JPA Configuration Example</description>
               <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
            <class>com.helloword.entity.Person</class>
+           <class>com.helloword.entity.User</class>
+           <class>com.helloword.entity.Role</class>
+           <class>com.helloword.entity.Order</class>
               <properties>
-                     <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
+                     <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
                      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/springmvc" />
                      <property name="javax.persistence.jdbc.user" value="root" />
                      <property name="javax.persistence.jdbc.password" value="root" />
                      <property name="hibernate.show_sql" value="true" />
-                     <!--property name="hibernate.hbm2ddl.auto" value="update" /-->
+                     <property name="dialect" value="org.hibernate.dialect.MySQLDialect" />
+                     <!--<property name="hibernate.hbm2ddl.auto" value="update" />-->
                      <property name="spring.jpa.properties.hibernate.hbm2ddl.auto" value="update" />
               </properties>
 

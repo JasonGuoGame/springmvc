@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author imssbora
  *
  */
-@Service
+@Service("personService")
 public class PersonServiceImp implements PersonService {
 
     @Autowired

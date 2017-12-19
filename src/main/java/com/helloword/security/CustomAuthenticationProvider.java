@@ -1,13 +1,18 @@
 package com.helloword.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.Collections;
 
 /**
@@ -15,6 +20,8 @@ import java.util.Collections;
  */
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
+    @Autowired
+    private CachingUserDetailsService cachingUserDetailsService;
     /**
      * Performs authentication with the same contract as
      * {@link AuthenticationManager#authenticate(Authentication)}
@@ -31,16 +38,21 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication auth) throws AuthenticationException {
         String username = auth.getName();
-        String password = auth.getCredentials()
-                .toString();
+        String password = auth.getCredentials().toString();
 
-        if ("externaluser".equals(username) && "pass".equals(password)) {
-            return new UsernamePasswordAuthenticationToken
-                    (username, password, Collections.emptyList());
-        } else {
-            throw new
-                    BadCredentialsException("External system authentication failed");
+        UserDetails user = cachingUserDetailsService.loadUserByUsername(username);
+
+        if (user == null || !user.getUsername().equalsIgnoreCase(username)) {
+            throw new BadCredentialsException("Username not found.");
         }
+
+        if (!password.equals(user.getPassword())) {
+            throw new BadCredentialsException("Wrong password.");
+        }
+
+        Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
+
+        return new UsernamePasswordAuthenticationToken(user, password, authorities);
     }
 
     /**
