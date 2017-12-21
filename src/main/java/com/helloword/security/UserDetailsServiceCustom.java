@@ -27,12 +27,14 @@ public class UserDetailsServiceCustom implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         com.helloword.entity.User byName = userRepository.findByName(username);
+        if(byName == null) return null;
+        else
         return buildUserFromUserEntity(byName);
     }
 
     private UserDetails buildUserFromUserEntity(com.helloword.entity.User userEntity) {
         // convert model user to spring security user
-        String username               = userEntity.getName();
+        String username               = userEntity.getUsername();
         String password               = userEntity.getPassword();
         CustomUser user = new CustomUser();
         user.setFirstName("kb");

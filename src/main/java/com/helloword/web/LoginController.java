@@ -8,9 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import com.helloword.entity.Person;
-import com.helloword.security.UserDTO;
+import com.helloword.dto.UserDTO;
 import com.helloword.service.PersonService;
-import com.helloword.service.PersonServiceImp;
 import com.helloword.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -20,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -30,11 +30,21 @@ public class LoginController {
     @Autowired
     private PersonService personService;
 
-    @RequestMapping(value={"/", "/login"}, method = RequestMethod.GET)
-    public ModelAndView login(){
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("welcome");
-        return modelAndView;
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public ModelAndView login(@RequestParam(value = "error", required = false) String error,
+                              @RequestParam(value = "logout", required = false) String logout){
+
+        ModelAndView model = new ModelAndView();
+        if (error != null) {
+            model.addObject("error", "Invalid username and password!");
+        }
+
+        if (logout != null) {
+            model.addObject("msg", "You've been logged out successfully.");
+        }
+        model.setViewName("login");
+
+        return model;
     }
 
 
@@ -62,7 +72,7 @@ public class LoginController {
             userService.saveUser(user);
             modelAndView.addObject("successMessage", "User has been registered successfully");
             modelAndView.addObject("user", new UserDTO());
-            modelAndView.setViewName("registration");
+            modelAndView.setViewName("welcome");
 
         }
         return modelAndView;
@@ -80,20 +90,20 @@ public class LoginController {
         return new ModelAndView("welcome", "lastName", user.getLastName());
     }
 
-    /*@RequestMapping(value = "/loginProcess", method = RequestMethod.POST)
+    @RequestMapping(value = "/j_spring_security_check", method = RequestMethod.POST)
     public ModelAndView loginProcess(HttpServletRequest request, HttpServletResponse response,
                                      @ModelAttribute("login") UserDTO login) {
         ModelAndView mav = null;
-        UserDTO user = userService.findUserByEmail();
+        UserDTO user = userService.findUserByEmail(login.getName());
         if (null != user) {
             mav = new ModelAndView("welcome");
-            mav.addObject("lastName", user.getLastName()));
+            mav.addObject("lastName", user.getLastName());
         } else {
             mav = new ModelAndView("login");
             mav.addObject("message", "Username or Password is wrong!!");
         }
         return mav;
-    }*/
+    }
 
     @RequestMapping(value="/admin/home", method = RequestMethod.GET)
     public ModelAndView home(){

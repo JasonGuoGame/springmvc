@@ -1,8 +1,7 @@
 package com.helloword.web;
 
 import com.helloword.entity.Person;
-import com.helloword.entity.User;
-import com.helloword.security.UserDTO;
+import com.helloword.dto.UserDTO;
 import com.helloword.service.HelloWorldService;
 
 import java.util.List;
@@ -58,6 +57,29 @@ public class WelcomeController {
 
         model.addObject("title", helloWorldService.getTitle(name));
         model.addObject("msg", helloWorldService.getDesc());
+
+        return model;
+
+    }
+
+    @RequestMapping(value = { "/", "/welcome**" }, method = RequestMethod.GET)
+    public ModelAndView welcomePage() {
+
+        ModelAndView model = new ModelAndView();
+        model.addObject("title", "Spring Security Custom Login Form");
+        model.addObject("message", "This is welcome page!");
+        model.setViewName("hello");
+        return model;
+
+    }
+
+    @RequestMapping(value = "/admin**", method = RequestMethod.GET)
+    public ModelAndView adminPage() {
+
+        ModelAndView model = new ModelAndView();
+        model.addObject("title", "Spring Security Custom Login Form");
+        model.addObject("message", "This is protected page!");
+        model.setViewName("admin");
 
         return model;
 

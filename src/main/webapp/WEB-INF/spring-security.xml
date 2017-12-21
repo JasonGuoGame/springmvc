@@ -6,10 +6,31 @@
           http://www.springframework.org/schema/security
           http://www.springframework.org/schema/security/spring-security-4.2.xsd">
 
+    <!--<security:http security="hasRole('ANONYMOUS')" pattern="/login" />-->
+
     <security:http auto-config="true">
+        <security:intercept-url pattern="/admin**" access="hasRole('ROLE_USER')" />
+        <security:intercept-url access="hasRole('ANONYMOUS')" pattern="/login" />
+        <security:form-login
+                login-page="/login"
+                login-processing-url="/j_spring_security_check"
+                default-target-url="/welcome"
+                authentication-failure-url="/login?error"
+                username-parameter="username"
+                password-parameter="password" />
+        <security:logout logout-success-url="/login?logout" />
+        <!-- enable csrf protection -->
+        <security:csrf/>
+        <!--<security:form-login login-page="/login"
+                             default-target-url="/welcome"
+                             login-processing-url="/j_spring_security_check" username-parameter="username"
+                             authentication-failure-url="/login?error"
+                             password-parameter="password" />
+        <security:logout logout-success-url="/login?logout" />
+        <security:csrf/>-->
+        <!-- 表示匿名用户可以访问 -->
         <security:intercept-url pattern="/**" access="hasRole('ROLE_ADMIN')"/>
     </security:http>
-
 
     <security:authentication-manager>
         <security:authentication-provider>

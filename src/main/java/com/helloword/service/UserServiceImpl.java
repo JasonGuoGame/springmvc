@@ -4,7 +4,7 @@ import com.helloword.entity.Role;
 import com.helloword.entity.User;
 import com.helloword.repository.RoleRepository;
 import com.helloword.repository.UserRepository;
-import com.helloword.security.UserDTO;
+import com.helloword.dto.UserDTO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -37,6 +37,7 @@ public class UserServiceImpl implements UserService {
     public UserDTO findUserByEmail(String email) {
         UserDTO userDTO = new UserDTO();
         User byEmail = userRepository.findByEmail(email);
+        if (byEmail == null) return null;
         BeanUtils.copyProperties(byEmail,userDTO);
         return userDTO;
     }
@@ -45,17 +46,21 @@ public class UserServiceImpl implements UserService {
     public void saveUser(UserDTO userdto) {
         User user = new User();
         user.setEmail(userdto.getEmail());
-        user.setLastName(userdto.getLastName());
-        user.setName(userdto.getName());
+//        user.setLastName(userdto.getLastName());
+        user.setUsername(userdto.getName());
         user.setPassword(bCryptPasswordEncoder.encode(userdto.getPassword()));
-        user.setActive(1);
-        Role userRole = roleRepository.findByRole("ADMIN");
-        if(userRole == null) {
-            userRole = new Role();
-            userRole.setId(1);
-            userRole.setRole("ADMIN");
-        }
-        user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
+//        user.setActive(1);
+//        Role userRole = roleRepository.findByRole("ADMIN");
+        user.setRoles(new HashSet<>(roleRepository.findAll()));
+//        user.setRoles(Arrays.asList(userRole));
         userRepository.save(user);
+    }
+
+    @Override
+    public UserDTO findByUsername(String userName) {
+        UserDTO userDTO = new UserDTO();
+        User nameUser = userRepository.findByUsername(userName);
+        BeanUtils.copyProperties(nameUser,userDTO);
+        return userDTO;
     }
 }

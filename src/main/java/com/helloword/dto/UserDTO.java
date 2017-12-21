@@ -1,4 +1,4 @@
-package com.helloword.security;
+package com.helloword.dto;
 
 /**
  * Created by scnyig on 12/19/2017.

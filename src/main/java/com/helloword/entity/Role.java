@@ -3,36 +3,41 @@ package com.helloword.entity;
 /**
  * Created by scnyig on 12/18/2017.
  */
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.io.Serializable;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "role")
-public class Role implements Serializable {
+public class Role {
+    private Long id;
+    private String role;
+    private Set<User> users;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="role_id")
-    private int id;
-    @Column(name="role")
-    private String role;
-
-    public int getId() {
+    public Long getId() {
         return id;
     }
-    public void setId(int id) {
+
+    public void setId(Long id) {
         this.id = id;
     }
+
+
+    @ManyToMany(mappedBy = "roles")
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
     public String getRole() {
         return role;
     }
+
     public void setRole(String role) {
         this.role = role;
     }
-
-
 }
