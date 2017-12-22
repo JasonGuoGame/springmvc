@@ -10,6 +10,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -20,6 +21,9 @@ import java.util.Collections;
  */
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Autowired
     private CachingUserDetailsService cachingUserDetailsService;
     /**
@@ -46,7 +50,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("Username not found.");
         }
 
-        if (!password.equals(user.getPassword())) {
+        if (!bCryptPasswordEncoder.matches(password,user.getPassword())) {
             throw new BadCredentialsException("Wrong password.");
         }
 

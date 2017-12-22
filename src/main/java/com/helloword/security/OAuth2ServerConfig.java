@@ -1,12 +1,14 @@
-/*
+
 package com.helloword.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -18,12 +20,13 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
-*/
+
 /**
  * Created by scnyig on 12/20/2017.
- *//*
+ */
 
 @Configuration
+@EnableWebSecurity
 public class OAuth2ServerConfig {
     private static final String DEMO_RESOURCE_ID = "order";
 
@@ -50,10 +53,8 @@ public class OAuth2ServerConfig {
                     .anonymous()
                     .and()
                     .authorizeRequests()
-//                    .antMatchers("/product*/
-/**").access("#oauth2.hasScope('select') and hasRole('ROLE_USER')")
-                    .antMatchers("/order*/
-/**").authenticated();//配置order访问控制，必须认证过后才可以访问
+//                    .antMatchers("/product/**").access("#oauth2.hasScope('select') and hasRole('ROLE_USER')")
+                    .antMatchers("/order/**").authenticated();//配置order访问控制，必须认证过后才可以访问
             // @formatter:on
         }
     }
@@ -62,12 +63,16 @@ public class OAuth2ServerConfig {
     @Configuration
     @EnableAuthorizationServer
     protected static class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
-
-        @Autowired
-        @Qualifier(value = "authenticationManager")
         AuthenticationManager authenticationManager;
         @Autowired
-        RedisConnectionFactory redisConnectionFactory;
+        @Qualifier("authenticationManager")
+        public void setAuthenticationManager(AuthenticationManager autm) {
+            authenticationManager = autm;
+        }
+
+        @Autowired
+        JedisConnectionFactory jedisConnectionFactory;
+
 
         @Override
         public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -88,7 +93,7 @@ public class OAuth2ServerConfig {
 
         @Override
         public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-            endpoints.tokenStore(new RedisTokenStore(redisConnectionFactory))
+            endpoints.tokenStore(new RedisTokenStore(jedisConnectionFactory))
                     .authenticationManager(authenticationManager);
         }
 
@@ -100,4 +105,4 @@ public class OAuth2ServerConfig {
 
     }
 }
-*/
+

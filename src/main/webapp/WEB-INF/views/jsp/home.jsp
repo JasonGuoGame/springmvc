@@ -15,9 +15,9 @@
 <body>
 <table align="center">
   <tr>
-    <td><a href="login">Login</a>
+    <td><a href="hello">Hello</a>
     </td>
-    <td><a href="register">Register</a>
+    <td><a href="registration">Register</a>
     </td>
   </tr>
 </table>

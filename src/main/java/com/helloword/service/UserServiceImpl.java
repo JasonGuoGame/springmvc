@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     public void saveUser(UserDTO userdto) {
         User user = new User();
         user.setEmail(userdto.getEmail());
-//        user.setLastName(userdto.getLastName());
+        user.setName(userdto.getName());
         user.setUsername(userdto.getName());
         user.setPassword(bCryptPasswordEncoder.encode(userdto.getPassword()));
 //        user.setActive(1);
@@ -60,7 +60,15 @@ public class UserServiceImpl implements UserService {
     public UserDTO findByUsername(String userName) {
         UserDTO userDTO = new UserDTO();
         User nameUser = userRepository.findByUsername(userName);
-        BeanUtils.copyProperties(nameUser,userDTO);
+        BeanUtils.copyProperties(nameUser, userDTO);
+        return userDTO;
+    }
+
+    @Override
+    public UserDTO findByName(String name) {
+        UserDTO userDTO = new UserDTO();
+        User nameUser = userRepository.findByName(name);
+        BeanUtils.copyProperties(nameUser, userDTO);
         return userDTO;
     }
 }

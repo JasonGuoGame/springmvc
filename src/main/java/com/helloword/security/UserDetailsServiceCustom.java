@@ -37,14 +37,17 @@ public class UserDetailsServiceCustom implements UserDetailsService {
         String username               = userEntity.getUsername();
         String password               = userEntity.getPassword();
         CustomUser user = new CustomUser();
-        user.setFirstName("kb");
-        user.setLastName("gc");
-        user.setUsername("kb");
-        user.setPassword("1234");
+        user.setFirstName(username);
+        user.setLastName(userEntity.getUsername());
+        user.setUsername(username);
+        user.setPassword(password);
         Role r = new Role();
         r.setName("ROLE_USER");
+        Role ad = new Role();
+        ad.setName("ROLE_ADMIN");
         List<Role> roles = new ArrayList<Role>();
         roles.add(r);
+        roles.add(ad);
         user.setAuthorities(roles);
         return user;
     }

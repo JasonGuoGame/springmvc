@@ -12,6 +12,6 @@
        <context:component-scan base-package="com.helloword.dao" />
        <context:component-scan base-package="com.helloword.repository" />
        <context:component-scan base-package="com.helloword.service" />
-    <context:component-scan base-package="com.helloword.security" />
+       <!--<context:component-scan base-package="com.helloword.security" />-->
        <context:component-scan base-package="com.helloword.web" />
 </beans>

@@ -1,12 +1,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:security="http://www.springframework.org/schema/security"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
           http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
           http://www.springframework.org/schema/security
-          http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+          http://www.springframework.org/schema/security/spring-security-4.2.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!--<security:http security="hasRole('ANONYMOUS')" pattern="/login" />-->
+
 
     <security:http auto-config="true">
         <security:intercept-url pattern="/admin**" access="hasRole('ROLE_USER')" />
@@ -14,7 +16,7 @@
         <security:form-login
                 login-page="/login"
                 login-processing-url="/j_spring_security_check"
-                default-target-url="/welcome"
+                default-target-url="/home"
                 authentication-failure-url="/login?error"
                 username-parameter="username"
                 password-parameter="password" />
@@ -32,7 +34,7 @@
         <security:intercept-url pattern="/**" access="hasRole('ROLE_ADMIN')"/>
     </security:http>
 
-    <security:authentication-manager>
+    <security:authentication-manager alias="authenticationManager">
         <security:authentication-provider>
             <security:user-service>
                 <security:user name="user" password="user" authorities="ROLE_USER"/>
@@ -42,5 +44,5 @@
         <security:authentication-provider ref="customAuthenticationProvider" />
     </security:authentication-manager>
 
-
+    <context:component-scan base-package="com.helloword.security" />
 </beans>

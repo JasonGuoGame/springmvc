@@ -9,4 +9,5 @@ public interface UserService {
     public UserDTO findUserByEmail(String email);
     public void saveUser(UserDTO user);
     public UserDTO findByUsername(String userName);
+    public UserDTO findByName(String userName);
 }
