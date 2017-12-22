@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -73,7 +74,6 @@ public class OAuth2ServerConfig {
         @Autowired
         JedisConnectionFactory jedisConnectionFactory;
 
-
         @Override
         public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
             //配置两个客户端,一个用于password认证一个用于client认证
@@ -83,18 +83,25 @@ public class OAuth2ServerConfig {
                     .scopes("select")
                     .authorities("client")
                     .secret("123456")
-                    .and().withClient("client_2")
+                    .and().withClient("scnyig")
                     .resourceIds(DEMO_RESOURCE_ID)
                     .authorizedGrantTypes("password", "refresh_token")
                     .scopes("select")
                     .authorities("client")
-                    .secret("123456");
+                    .secret("123456")
+                    .and().withClient("scnyig")
+                    .resourceIds(DEMO_RESOURCE_ID)
+                    .authorizedGrantTypes("password", "refresh_token")
+                    .scopes("select")
+                    .authorities("admin")
+                    .secret("admin");
         }
 
         @Override
         public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
             endpoints.tokenStore(new RedisTokenStore(jedisConnectionFactory))
-                    .authenticationManager(authenticationManager);
+                    .authenticationManager(authenticationManager)
+                    .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);// to allow get for password grant;
         }
 
         @Override

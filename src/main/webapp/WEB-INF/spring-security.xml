@@ -13,6 +13,7 @@
     <security:http auto-config="true">
         <security:intercept-url pattern="/admin**" access="hasRole('ROLE_USER')" />
         <security:intercept-url access="hasRole('ANONYMOUS')" pattern="/login" />
+        <security:intercept-url access="hasRole('ANONYMOUS')" pattern="/oauth" />
         <security:form-login
                 login-page="/login"
                 login-processing-url="/j_spring_security_check"
