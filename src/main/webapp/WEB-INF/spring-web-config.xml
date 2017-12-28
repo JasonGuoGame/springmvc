@@ -12,12 +12,27 @@
 
        <context:component-scan base-package="com.helloword.web" />
 
-       <bean id="first" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+       <!--<bean id="first" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
               <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
               <property name="prefix" value="/WEB-INF/views/jsp/" />
               <property name="suffix" value=".jsp" />
-       </bean>
+       </bean>-->
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>classpath:validation</value>
+            </list>
+        </property>
+    </bean>
 
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix">
+            <value>/WEB-INF/views/</value>
+        </property>
+        <property name="suffix">
+            <value>.jsp</value>
+        </property>
+    </bean>
        <mvc:resources mapping="/resources/**" location="/resources/" />
 
        <mvc:annotation-driven />

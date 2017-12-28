@@ -43,23 +43,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveUser(UserDTO userdto) {
+    public UserDTO saveUser(UserDTO userdto) {
         User user = new User();
         user.setEmail(userdto.getEmail());
-        user.setName(userdto.getName());
-        user.setUsername(userdto.getName());
+        user.setName(userdto.getUserName());
+        user.setUsername(userdto.getUserName());
         user.setPassword(bCryptPasswordEncoder.encode(userdto.getPassword()));
 //        user.setActive(1);
 //        Role userRole = roleRepository.findByRole("ADMIN");
         user.setRoles(new HashSet<>(roleRepository.findAll()));
 //        user.setRoles(Arrays.asList(userRole));
-        userRepository.save(user);
+
+        User savedUser = userRepository.save(user);
+        return userdto;
     }
 
     @Override
     public UserDTO findByUsername(String userName) {
         UserDTO userDTO = new UserDTO();
         User nameUser = userRepository.findByUsername(userName);
+        if (nameUser == null) return null;
         BeanUtils.copyProperties(nameUser, userDTO);
         return userDTO;
     }

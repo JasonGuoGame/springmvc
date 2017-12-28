@@ -2,6 +2,7 @@ package com.helloword.security;
 
 import com.helloword.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +17,7 @@ import java.util.List;
  * Created by xin on 15/1/10.
  */
 @Service
+@Qualifier("userDetailsServiceCustom")
 public class UserDetailsServiceCustom implements UserDetailsService {
 
     @Autowired
