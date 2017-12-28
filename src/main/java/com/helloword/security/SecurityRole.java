@@ -5,7 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 /**
  * Created by scnyig on 12/19/2017.
  */
-public class Role implements GrantedAuthority {
+public class SecurityRole implements GrantedAuthority {
     /**
      * If the <code>GrantedAuthority</code> can be represented as a <code>String</code>
      * and that <code>String</code> is sufficient in precision to be relied upon for an

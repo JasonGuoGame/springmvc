@@ -15,7 +15,7 @@ public class CustomUser implements UserDetails {
     private String lastName;
 
     /* Spring Security related fields*/
-    private List<Role> authorities;
+    private List<SecurityRole> authorities;
     private boolean accountNonExpired = true;
     private boolean accountNonLocked = true;
     private boolean credentialsNonExpired = true;
@@ -50,10 +50,10 @@ public class CustomUser implements UserDetails {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    public List<Role> getAuthorities() {
+    public List<SecurityRole> getAuthorities() {
         return authorities;
     }
-    public void setAuthorities(List<Role> authorities) {
+    public void setAuthorities(List<SecurityRole> authorities) {
         this.authorities = authorities;
     }
     public boolean isAccountNonExpired() {
