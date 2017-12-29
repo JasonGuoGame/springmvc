@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.approval.UserApprovalHandler;
+import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 /**
  * Created by scnyig on 12/26/2017.
@@ -29,6 +30,8 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Qualifier("authenticationManager")
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private AccessTokenConverter accessTokenConverter;
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
@@ -45,7 +48,8 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.tokenStore(tokenStore).userApprovalHandler(userApprovalHandler)
                 .authenticationManager(authenticationManager)
-        .allowedTokenEndpointRequestMethods(HttpMethod.DELETE.GET,HttpMethod.POST);
+                .accessTokenConverter(accessTokenConverter)
+        .allowedTokenEndpointRequestMethods(HttpMethod.DELETE.GET, HttpMethod.POST);
     }
 
 
