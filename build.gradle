@@ -65,7 +65,7 @@ dependencies {
     compile 'org.springframework.security:spring-security-web:4.2.3.RELEASE'
     // https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-mapper-asl
 //    compile group: 'org.codehaus.jackson', name: 'jackson-mapper-asl', version: '1.9.12'
-    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    // the response is sent as JSON string, and the Content-Type header in response confirms that
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.3'
 
     // https://mvnrepository.com/artifact/commons-httpclient/commons-httpclient
