@@ -20,7 +20,7 @@ var Home = Vue.extend({
 var ViewMovie = Vue.extend({
     template:"#movieTemplate",
     data:function(){
-        this.$http.get("/movie/"+this.$route.params.movieId+".json").then(function(response){
+        this.$http.get("/" + contextPath + "/movie/"+this.$route.params.movieId+".json").then(function(response){
             this.$set('movie',response.data);
         }).catch(function(){
             alert("获取服务器数据错误");
@@ -32,7 +32,7 @@ var ViewMovie = Vue.extend({
     methods:{
         remove:function(movie){
             if(confirm("确定要删除该影片吗")) {
-                this.$http.delete("/movie/"+movie.id).then(function(response){
+                this.$http.delete("/" + contextPath + "/movie/"+movie.id).then(function(response){
                     if(response.data == "success") {
                         router.replace({path:'/'});
                     }
@@ -69,7 +69,7 @@ var NewMovie = Vue.extend({
 var EditMovie = Vue.extend({
     template:"#editTemplate",
     data:function(){
-        this.$http.get("/movie/"+this.$route.params.movieId+".json").then(function(response){
+        this.$http.get("/" + contextPath + "/movie/"+this.$route.params.movieId+".json").then(function(response){
             this.$set("movie",response.data);
         }).catch(function(ex){
             alert("获取数据异常：" + ex);
@@ -80,7 +80,7 @@ var EditMovie = Vue.extend({
     },
     methods:{
         save:function(){
-            this.$http.post("/movie/edit",this.movie).then(function(response){
+            this.$http.post("/" + contextPath + "/movie/edit",this.movie).then(function(response){
                 if(response.data == "success") {
                     router.replace({name:'movieView',params:{movieId:this.movie.id}});
                 }

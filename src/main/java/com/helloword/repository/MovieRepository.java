@@ -12,6 +12,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Qualifier(value = "movieRepository")
-public interface MovieRepository extends JpaRepository<Movie, Long> {
-    public MovieDTO findMovieById(Long id);
+public interface MovieRepository extends JpaRepository<Movie, Integer> {
+//    public MovieDTO findMovieById(Integer id);
 }

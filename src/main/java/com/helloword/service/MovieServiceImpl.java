@@ -46,22 +46,34 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public MovieDTO findMovieById(Integer id) {
         Long longid = new Long(id);
-        Optional<Movie> movie = movieRepository.findById(longid);
+        Optional<Movie> movie = movieRepository.findById(id);
         MovieDTO movieDTO = new MovieDTO();
-        BeanUtils.copyProperties(movie, movieDTO);
+        if (movie.isPresent()) {
+            BeanUtils.copyProperties(movie.get(), movieDTO);
+        }
         return movieDTO;
     }
 
     @Override
     public MovieDTO delMovie(Integer id) {
         Long longid = new Long(id);
-        movieRepository.deleteById(longid);
+        movieRepository.deleteById(id);
         return null;
     }
 
     @Override
     public MovieDTO editMovie(MovieDTO movieDTO) {
-        return null;
+        Optional<Movie> movie = movieRepository.findById(movieDTO.getId());
+        if (movie.isPresent()) {
+            BeanUtils.copyProperties(movieDTO, movie.get());
+            movieRepository.save(movie.get());
+        }else {
+            Movie movie1 = new Movie();
+            BeanUtils.copyProperties(movieDTO, movie1);
+            movieRepository.save(movie1);
+        }
+
+        return movieDTO;
     }
 
 
