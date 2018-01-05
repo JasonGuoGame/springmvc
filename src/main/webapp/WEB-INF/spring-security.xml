@@ -13,9 +13,11 @@
         <!--<security:intercept-url access="hasRole('ANONYMOUS')" pattern="/login" />-->
         <security:intercept-url pattern="/" access="hasRole('ROLE_USER')"/>
         <security:intercept-url pattern="/welcome" access="hasRole('ROLE_USER')"/>
+        <security:intercept-url pattern="/person**" access="hasRole('ROLE_USER')"/>
         <security:form-login login-page="/login" default-target-url="/welcome" authentication-failure-url="/login?error" username-parameter="username" password-parameter="password"/>
         <security:logout logout-success-url="/login?logout" />
-
+        <security:intercept-url pattern="/movie/**" access="permitAll" />
+        <security:csrf request-matcher-ref="csrfSecurityRequestMatcher"/>
         <!--<security:intercept-url access="hasRole('ANONYMOUS')" pattern="/registration" />-->
         <!--<security:intercept-url pattern="/**" access="hasRole('ROLE_ADMIN')"/>-->
     </security:http>
@@ -57,4 +59,12 @@
 
     <context:component-scan base-package="com.helloword.security" />
     <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+    <bean id="csrfSecurityRequestMatcher" class="com.helloword.security.CsrfSecurityRequestMatcher">
+        <property name="execludeUrls">
+            <list>
+                <value>/movie/</value>
+            </list>
+        </property>
+    </bean>
 </beans>

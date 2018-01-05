@@ -22,10 +22,11 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.
+                csrf().disable().
                 anonymous().disable()
-                .requestMatchers().antMatchers("/user/**")
+                .requestMatchers().antMatchers("/movie/**")
                 .and().authorizeRequests()
-                .antMatchers("/user/**").access("hasRole('ADMIN')")
+                .antMatchers("/movie/**").access("hasRole('ADMIN')")
                 .and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
     }
 }

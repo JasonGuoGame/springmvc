@@ -11,7 +11,7 @@
         http://www.springframework.org/schema/context/spring-context.xsd ">
 
        <context:component-scan base-package="com.helloword.web" />
-
+    <context:component-scan base-package="com.helloword.rest" />
        <!--<bean id="first" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
               <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
               <property name="prefix" value="/WEB-INF/views/jsp/" />

@@ -1,6 +1,6 @@
 package com.helloword.web;
 
-import com.helloword.entity.Person;
+import com.helloword.dto.PersonDTO;
 import com.helloword.dto.UserDTO;
 import com.helloword.service.HelloWorldService;
 
@@ -14,9 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 /**
  * Created by scnyig on 11/20/2017.
@@ -43,7 +41,7 @@ public class WelcomeController {
 
         model.put("title", helloWorldService.getTitle(""));
         model.put("msg", helloWorldService.getDesc());
-        List<Person> persons = personService.listPersons();
+        List<PersonDTO> persons = personService.listPersons();
         UserDTO userByEmail = userService.findUserByEmail("yin.guo@sas.com");
         return "index";
     }
@@ -63,7 +61,7 @@ public class WelcomeController {
 
     }
 
-    @RequestMapping(value = { "/", "/welcome**" }, method = RequestMethod.GET)
+    /*@RequestMapping(value = { "/", "/welcome**" }, method = RequestMethod.GET)
     public ModelAndView welcomePage() {
 
         ModelAndView model = new ModelAndView();
@@ -72,7 +70,7 @@ public class WelcomeController {
         model.setViewName("hello");
         return model;
 
-    }
+    }*/
 
     @RequestMapping(value = "/admin**", method = RequestMethod.GET)
     public ModelAndView adminPage() {
@@ -89,5 +87,19 @@ public class WelcomeController {
     @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
     public String welcome(Model model) {
         return "welcome";
+    }
+
+    @RequestMapping(value = "/persons", method = RequestMethod.GET)
+    public @ResponseBody List<PersonDTO> listAllUsers() {
+        List<PersonDTO> users = personService.listPersons();
+
+        return users;
+    }
+
+    @RequestMapping(value="/movieview", method = RequestMethod.GET)
+    public ModelAndView registration(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("movie");
+        return modelAndView;
     }
 }

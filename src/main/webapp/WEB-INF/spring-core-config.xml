@@ -14,4 +14,5 @@
        <context:component-scan base-package="com.helloword.service" />
        <context:component-scan base-package="com.helloword.validator" />
        <context:component-scan base-package="com.helloword.web" />
+
 </beans>

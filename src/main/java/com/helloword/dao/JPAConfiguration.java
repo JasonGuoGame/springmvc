@@ -1,5 +1,6 @@
 package com.helloword.dao;
 
+import com.helloword.repository.MovieRepository;
 import com.helloword.repository.RoleRepository;
 import com.helloword.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,7 +29,7 @@ import java.util.Properties;
  * Created by scnyig on 12/18/2017.
  */
 @Configuration
-@EnableJpaRepositories(basePackages = "com.helloword.repository", includeFilters = @ComponentScan.Filter(value = {UserRepository.class, RoleRepository.class}, type = FilterType.ASSIGNABLE_TYPE))
+@EnableJpaRepositories(basePackages = "com.helloword.repository", includeFilters = @ComponentScan.Filter(value = {UserRepository.class, RoleRepository.class, MovieRepository.class}, type = FilterType.ASSIGNABLE_TYPE))
 @EnableTransactionManagement
 public class JPAConfiguration {
     @Bean

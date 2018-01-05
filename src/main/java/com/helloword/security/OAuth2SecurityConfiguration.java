@@ -43,6 +43,7 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .logoutSuccessUrl("/home")
 //            .logoutSuccessHandler(logoutSuccessHandler)
             .invalidateHttpSession(true);
+
 //            .addLogoutHandler(logoutHandler)
 //            .deleteCookies(cookieNamesToClear);
     }
